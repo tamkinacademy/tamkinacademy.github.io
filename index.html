@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tamkin Academy</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@500;700;800&family=Hind+Siliguri:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+  /* Layout: one page, two views. Home = hero, course grid (open / bonus / coming soon), why-us, contact.
+     Course view = hero (+ looping preview where set), steps, enroll box with Nagad + phone, FAQ.
+     One committed dark look: deep emerald ink + brass gold; mint only for "free". */
+  :root {
+    --bg: #07120e; --bg2: #0b1a14; --card: #10231b; --line: #1f3a2d;
+    --fg: #f1f4ee; --muted: #98ada2; --gold: #e9b949; --gold-ink: #231800; --free: #3be28f;
+    --display: 'Anek Bangla', 'Hind Siliguri', system-ui, sans-serif;
+    --body: 'Hind Siliguri', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 18px; line-height: 1.65;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  a { color: inherit; }
+  h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; line-height: 1.2; }
+  h2 { font-size: clamp(28px, 5vw, 42px); font-weight: 800; }
+  h3 { font-size: 22px; font-weight: 700; }
+  p { margin: 0; }
+  .eyebrow { font-family: var(--mono); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font: 700 18px var(--body); text-decoration: none; padding: 14px 28px; border-radius: 12px; border: 1px solid transparent; cursor: pointer; color: var(--fg); background: none; }
+  .btn.gold { background: var(--gold); color: var(--gold-ink); box-shadow: 0 10px 40px rgba(233,185,73,.25); }
+  .btn.ghost { border-color: var(--line); }
+  .btn:hover { filter: brightness(1.1); }
+  .btn.sm { padding: 9px 18px; font-size: 16px; }
+
+  .nav-band { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(7,18,14,.9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line);
+    margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
+  nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+  .brand { font-family: var(--display); font-weight: 800; font-size: 21px; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--gold); display: grid; place-items: center; color: var(--gold-ink); font-size: 18px; font-weight: 800; }
+  .links { display: flex; gap: 22px; color: var(--muted); font-size: 16px; }
+  .links a { text-decoration: none; cursor: pointer; }
+  .links a:hover { color: var(--fg); }
+  @media (max-width: 720px) { .links { display: none; } }
+
+  .hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; padding-block: 72px 80px; }
+  .hero.one { grid-template-columns: 1fr; max-width: 760px; }
+  .hero > * { min-width: 0; }
+  @media (max-width: 860px) { .hero { grid-template-columns: 1fr; padding-block: 40px 56px; gap: 36px; } }
+  .hero h1 { font-size: clamp(36px, 7vw, 62px); font-weight: 800; margin: 14px 0 18px; }
+  .hero h1 em { font-style: normal; color: var(--gold); }
+  .lead { color: var(--muted); font-size: 20px; max-width: 34em; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .offer { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 26px; }
+  .offer .p { font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--gold); }
+  .offer .plus { color: var(--muted); }
+  .pill { display: inline-flex; align-items: center; padding: 3px 14px; border-radius: 99px; font-weight: 700; font-size: 15px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+  .pill.free { border-color: var(--free); color: var(--free); }
+  .pill.open { border-color: var(--gold); color: var(--gold); }
+
+  .preview { position: relative; aspect-ratio: 16 / 10; container-type: inline-size; border: 1px solid var(--line); border-radius: 20px; background: radial-gradient(ellipse at 50% 120%, rgba(59,226,143,.22), transparent 62%), #050d0a; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+  .preview .dots { position: absolute; top: 3.5cqw; left: 4cqw; display: flex; gap: 1.4cqw; }
+  .preview .dots i { width: 2cqw; height: 2cqw; border-radius: 50%; background: var(--line); }
+  .ph { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 3cqw; text-align: center; opacity: 0; padding: 0 6cqw; }
+  .ph b { font-family: var(--display); font-size: 8cqw; line-height: 1.15; font-weight: 800; }
+  .ph b span { color: var(--gold); }
+  .ph1 { animation: ph1 10s infinite; } .ph2 { animation: ph2 10s infinite; } .ph3 { animation: ph3 10s infinite; }
+  @keyframes ph1 { 0%{opacity:0;filter:blur(10px)} 4%,28%{opacity:1;filter:blur(0)} 33%,100%{opacity:0} }
+  @keyframes ph2 { 0%,33%{opacity:0} 37%,62%{opacity:1} 67%,100%{opacity:0} }
+  @keyframes ph3 { 0%,67%{opacity:0;transform:scale(.9)} 72%,95%{opacity:1;transform:none} 100%{opacity:0} }
+  .bar { width: 56cqw; height: 2.2cqw; border-radius: 99px; background: #1b2a23; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--gold); border-radius: 99px; animation: fill 10s infinite; }
+  @keyframes fill { 0%,36%{width:0} 56%,66%{width:70%} 67%,100%{width:0} }
+  .ph small { font-size: 3.2cqw; color: var(--muted); font-family: var(--mono); }
+  .priceTag { font-family: var(--display); font-weight: 800; font-size: 9cqw; padding: .8cqw 5cqw 1.6cqw; background: var(--gold); color: var(--gold-ink); border-radius: 3.5cqw; }
+
+  section { padding-block: 72px; border-top: 1px solid var(--line); scroll-margin-top: 70px; }
+  .head { display: grid; gap: 12px; margin-bottom: 36px; max-width: 40em; }
+  .head p { color: var(--muted); }
+
+  .poster { --a: var(--gold); position: relative; aspect-ratio: 4 / 3; container-type: inline-size; overflow: hidden; border-radius: 14px;
+    background: radial-gradient(ellipse at 85% 115%, color-mix(in srgb, var(--a) 36%, transparent), transparent 62%), linear-gradient(160deg, #0f2a20, #07120e);
+    border: 1px solid color-mix(in srgb, var(--a) 45%, var(--line)); }
+  .poster .pt { position: absolute; top: 5cqw; left: 5.5cqw; right: 5.5cqw; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 3.2cqw; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .poster .pt i { font-style: normal; color: var(--a); font-family: var(--body); letter-spacing: 0; text-transform: none; font-size: 3.8cqw; font-weight: 700; }
+  .poster h4 { position: absolute; left: 5.5cqw; top: 16cqw; width: 60%; margin: 0; font-family: var(--display); font-weight: 800; font-size: 8.8cqw; line-height: 1.15; text-wrap: balance; }
+  .poster h4 em { font-style: normal; color: var(--a); }
+  .poster svg { position: absolute; right: -2cqw; bottom: -4cqw; width: 56%; height: auto; }
+  .poster .pb { position: absolute; left: 5.5cqw; bottom: 5.5cqw; padding: .6cqw 4cqw 1.4cqw; border-radius: 99px; background: var(--a); color: #06100b; font-family: var(--display); font-weight: 800; font-size: 5.6cqw; line-height: 1.3; }
+  .poster svg .a { fill: var(--a); } .poster svg .ga { fill: none; stroke: var(--a); stroke-width: 3; }
+  .poster svg .d { fill: #12281f; stroke: #2f5645; stroke-width: 2; } .poster svg .m { fill: #3be28f; } .poster svg .w { fill: #f1f4ee; } .poster svg .g { fill: #2f5645; } .poster svg .k { fill: #0b1a14; stroke: #2f5645; stroke-width: 2; }
+  .cc > *:not(.poster) { margin-inline: 22px; }
+  .cc .poster { margin: 0; border-radius: 0; border: 0; border-bottom: 1px solid var(--line); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; }
+  .cc { display: grid; gap: 14px; align-content: start; padding: 0 0 22px; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--bg2); text-align: left; font: inherit; color: inherit; cursor: pointer; min-width: 0; }
+  .cc:hover { border-color: var(--gold); }
+  .cc.st-soon { cursor: pointer; opacity: .85; }
+  .cc.main { border-color: var(--gold); background: linear-gradient(160deg, rgba(233,185,73,.10), transparent 55%), var(--bg2); }
+  .cc .top { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+  .cc p { color: var(--muted); font-size: 17px; }
+  .cc .pr { font-family: var(--display); font-weight: 800; font-size: 26px; color: var(--gold); }
+  .cc .more { color: var(--gold); font-weight: 700; font-size: 16px; }
+
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: s; }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 56px 1fr; gap: 20px; align-items: start; padding: 22px; border: 1px solid var(--line); border-radius: 16px; background: var(--bg2); }
+  .steps li::before { content: counter(s, bengali); font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; color: var(--gold); }
+  .steps h3 { margin-bottom: 4px; } .steps p { color: var(--muted); font-size: 17px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 12px; }
+  .chip { padding: 10px 22px; border: 1px solid var(--line); background: var(--bg2); border-radius: 99px; font-weight: 500; }
+  .chip.hl { border-color: var(--gold); color: var(--gold); font-weight: 700; }
+
+  .bonus { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; padding: 32px; border: 1px solid var(--free); border-radius: 20px; background: linear-gradient(135deg, rgba(59,226,143,.10), transparent 60%), var(--bg2); }
+  .bonus > * { min-width: 0; } .bonus p { color: var(--muted); margin-top: 8px; }
+  .bonus .big { font-family: var(--display); font-weight: 800; font-size: 54px; color: var(--free); line-height: 1; }
+  @media (max-width: 700px) { .bonus { grid-template-columns: 1fr; padding: 24px; } }
+
+  .box { max-width: 560px; margin: 0 auto; padding: 34px 30px; border: 1px solid var(--gold); border-radius: 22px; background: var(--card); box-shadow: 0 0 80px rgba(233,185,73,.12); display: grid; gap: 22px; }
+  .box .amt { font-family: var(--display); font-weight: 800; font-size: 70px; line-height: 1; color: var(--gold); text-align: center; }
+  .box ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .box li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; }
+  .box li::before { content: "✓"; color: var(--free); font-weight: 700; }
+  .how { display: grid; gap: 8px; padding: 18px; background: var(--bg2); border: 1px solid var(--line); border-radius: 14px; font-size: 17px; }
+  .how b { font-family: var(--display); }
+  .num { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; justify-content: space-between; padding: 12px 14px; border: 1px dashed var(--line); border-radius: 12px; }
+  .num span { color: var(--muted); font-size: 15px; }
+  .num code { font-family: var(--mono); font-size: 18px; color: var(--gold); user-select: all; }
+  .num .l { display: grid; gap: 0; min-width: 0; }
+
+  details { border: 1px solid var(--line); border-radius: 14px; background: var(--bg2); padding: 4px 22px; }
+  details + details { margin-top: 12px; }
+  summary { cursor: pointer; padding: 16px 0; font-family: var(--display); font-weight: 700; font-size: 20px; }
+  details p { color: var(--muted); padding-bottom: 18px; }
+  .back { background: none; border: 0; color: var(--muted); font: 500 16px var(--body); cursor: pointer; padding: 0; margin-bottom: 8px; }
+  .back:hover { color: var(--fg); }
+  footer { padding-block: 40px 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; text-align: center; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ph, .bar i { animation: none; } .ph1 { opacity: 1; } .bar i { width: 70%; } html { scroll-behavior: auto; }
+  }
+</style>
+
+</head>
+<body>
+<div class="nav-band"><div class="wrap"><nav>
+  <a class="brand" href="#" data-go="home"><span class="mark" aria-hidden="true">ত</span> Tamkin Academy</a>
+  <div class="links"><a data-go="home" data-scroll="courses">কোর্স</a><a data-go="home" data-scroll="why">কেন আমরা</a><a data-go="home" data-scroll="contact">যোগাযোগ</a></div>
+  <a class="btn gold sm" data-go="ai-animation" href="#">এনরোল করুন</a>
+</nav></div></div>
+
+<div class="wrap" id="app"></div>
+
+<footer><div class="wrap">© Tamkin Academy · সব কোর্স বাংলায়</div></footer>
+
+<script>
+  var CONTACT = '01942319608';
+  var NAGAD = '01603239138';
+
+  /* Add a course = add one object here. status: open | bonus | soon */
+  var COURSES = [
+    {
+      id: 'ai-animation', status: 'open', main: true, price: '৪৯৯ টাকা',
+      poster: { a: '#e9b949', t: 'AI দিয়ে <em>অ্যানিমেশন</em> ভিডিও', badge: '৪৯৯ টাকা', art: 'film' },
+      title: 'AI দিয়ে অ্যানিমেশন ভিডিও',
+      short: 'নিজের বিজনেসের বিজ্ঞাপন নিজেই বানান। দোকান, রেস্টুরেন্ট, অনলাইন শপ, সার্ভিস, যেকোনো বিজনেসের জন্য।',
+      hero: 'AI দিয়ে বানান <em>অ্যানিমেশন ভিডিও</em>, যেকোনো বিজনেসের জন্য',
+      lead: 'আলাদা ডিজাইনার বা এডিটর ভাড়া না করে নিজের বিজ্ঞাপন নিজে বানাতে চাইলে। ধাপে ধাপে, বাংলায়।',
+      preview: true, bonusId: 'website',
+      audience: ['দোকান', 'রেস্টুরেন্ট', 'অনলাইন শপ', 'কোচিং সেন্টার', 'সার্ভিস বিজনেস', 'ফ্রিল্যান্সার', 'আপনার বিজনেস'],
+      stepsTitle: 'পাঁচ ধাপে একটা পুরো ভিডিও',
+      stepsLead: 'প্রতিটা ধাপ আগেরটার ওপর দাঁড়িয়ে। শেষে আপনার নিজের বিজনেসের একটা ভিডিও তৈরি থাকবে।',
+      steps: [
+        ['স্ক্রিপ্ট ও আইডিয়া', 'ছোট ছোট বাক্যে এমন কথা লেখা, যা দেখলে মানুষ থামে।'],
+        ['AI-কে দিয়ে দৃশ্য বানানো', 'দৃশ্য বর্ণনা করলে AI অ্যানিমেশন লিখে দেয়। কোড বোঝার দরকার নেই।'],
+        ['বাংলা লেখা, রং ও ফন্ট', 'দুই-তিনটা রং আর একটা ফন্টেই কীভাবে প্রফেশনাল লুক আসে।'],
+        ['নড়াচড়া ও সাউন্ড', 'ঝাপসা থেকে পরিষ্কার, পপ-আপ, বার ভরা, সাথে সাউন্ড ইফেক্ট ও মিউজিক।'],
+        ['রেকর্ড, ভয়েস ও এক্সপোর্ট', 'ফ্রি টুলে রেকর্ড করে MP4 বের করা, Facebook ও Reels-এর সাইজে।']
+      ],
+      includes: ['AI দিয়ে অ্যানিমেশন ভিডিও বানানোর পুরো কোর্স', 'বোনাস: ওয়েবসাইট বানানোর কোর্স (ফ্রি)', 'যেকোনো ধরনের বিজনেসের জন্য'],
+      faq: [
+        ['কোডিং জানা লাগবে?', 'না। আপনি দৃশ্যটা বাংলায় বর্ণনা করবেন, AI কোড লিখে দেবে। কোর্সে সেই বর্ণনা কীভাবে লিখতে হয় শেখানো হবে।'],
+        ['কোন কোন টুল লাগবে, খরচ কত?', 'কোর্সে ফ্রি টুল ব্যবহার করা হয়। একটা কম্পিউটার বা ফোন আর ইন্টারনেট থাকলেই শুরু করা যায়।'],
+        ['কোর্স কীভাবে পাব?', 'নগদে টাকা পাঠিয়ে আমাদের জানালে কোর্সে ঢোকার নিয়ম আপনাকে জানিয়ে দেওয়া হবে।'],
+        ['ফ্রি ওয়েবসাইট কোর্সটা কীভাবে পাব?', 'এই কোর্স নিলে ওয়েবসাইট বানানোর কোর্সটাও একই সাথে পাবেন, আলাদা কোনো টাকা লাগবে না।']
+      ]
+    },
+    {
+      id: 'website', status: 'bonus', price: 'ফ্রি বোনাস',
+      poster: { a: '#3be28f', t: 'নিজের <em>ওয়েবসাইট</em> বানান ফ্রিতে', badge: 'ফ্রি বোনাস', art: 'web' },
+      title: 'ফ্রিতে ওয়েবসাইট বানানো',
+      short: 'কোনো খরচ ছাড়া নিজের ওয়েবসাইট কীভাবে বানাবেন ও অনলাইনে তুলবেন।',
+      hero: 'ফ্রিতে নিজের <em>ওয়েবসাইট</em> বানান',
+      lead: 'AI দিয়ে অ্যানিমেশন ভিডিও কোর্সটি নিলে এই কোর্সটি বোনাস হিসেবে ফ্রি পাবেন।',
+      needs: 'ai-animation'
+    },
+    {
+      id: 'graphic', status: 'soon', price: 'শীঘ্রই আসছে',
+      poster: { a: '#ff8a65', t: 'শিখুন <em>গ্রাফিক ডিজাইন</em>', badge: 'শীঘ্রই আসছে', art: 'shapes' },
+      title: 'গ্রাফিক ডিজাইন',
+      short: 'পোস্টার, ব্যানার আর সোশ্যাল মিডিয়া পোস্ট নিজে ডিজাইন করা শিখুন।',
+      hero: 'শিখুন <em>গ্রাফিক ডিজাইন</em>',
+      lead: 'পোস্টার, ব্যানার আর সোশ্যাল মিডিয়া পোস্ট নিজে ডিজাইন করা শেখার কোর্স।'
+    },
+    {
+      id: 'teacher', status: 'soon', price: 'শীঘ্রই আসছে',
+      poster: { a: '#5ec8ff', t: 'মোবাইলে <em>প্রশ্নপত্র</em> বানান', badge: 'শিক্ষকদের জন্য', art: 'paper' },
+      title: 'শিক্ষকদের জন্য মোবাইলে প্রশ্ন বানানো',
+      short: 'মাদরাসা ও স্কুলের শিক্ষকরা ফোন দিয়েই ফ্রিতে প্রশ্নপত্র বানাতে পারবেন।',
+      hero: 'মোবাইলে ফ্রিতে <em>প্রশ্নপত্র</em> বানান',
+      lead: 'মাদরাসা ও স্কুলের শিক্ষকদের জন্য। শুধু ফোন দিয়েই ফ্রিতে প্রশ্ন বানানোর কোর্স।'
+    }
+  ];
+
+  function byId(id) { for (var i = 0; i < COURSES.length; i++) if (COURSES[i].id === id) return COURSES[i]; return null; }
+  function badge(c) {
+    if (c.status === 'open') return '<span class="pill open">চালু আছে</span>';
+    if (c.status === 'bonus') return '<span class="pill free">ফ্রি বোনাস</span>';
+    return '<span class="pill">শীঘ্রই আসছে</span>';
+  }
+  function numRow(label, value) {
+    return '<div class="num"><div class="l"><span>' + label + '</span><code>' + value + '</code></div><button class="btn ghost sm" type="button" data-copy="' + value + '">কপি করুন</button></div>';
+  }
+  function contactBlock(intro) {
+    return '<div class="how"><b>' + intro + '</b>' + numRow('যোগাযোগ নম্বর', CONTACT) + '</div>';
+  }
+
+  var ARTS = {
+    film: '<svg viewBox="0 0 300 240" aria-hidden="true"><rect class="d" x="118" y="14" width="160" height="92" rx="12"/><polygon class="a" points="180,42 180,80 212,61"/><rect class="d" x="20" y="118" width="268" height="108" rx="14"/><rect class="a" x="36" y="138" width="120" height="14" rx="7"/><rect class="m" x="76" y="160" width="150" height="14" rx="7"/><rect class="a" x="36" y="182" width="86" height="14" rx="7" opacity=".55"/><rect class="w" x="168" y="128" width="3" height="88" rx="1.5"/><polygon class="w" points="162,124 177,124 169.5,134"/><rect class="m" x="240" y="184" width="12" height="12" transform="rotate(45 246 190)"/></svg>',
+    web: '<svg viewBox="0 0 300 240" aria-hidden="true"><rect class="d" x="20" y="24" width="268" height="196" rx="14"/><circle class="g" cx="40" cy="44" r="5"/><circle class="g" cx="55" cy="44" r="5"/><circle class="g" cx="70" cy="44" r="5"/><rect class="k" x="88" y="36" width="186" height="16" rx="8"/><rect class="a" x="36" y="74" width="150" height="14" rx="7"/><rect class="g" x="36" y="98" width="112" height="8" rx="4"/><rect class="m" x="36" y="118" width="68" height="24" rx="12"/><rect class="k" x="36" y="160" width="76" height="46" rx="8"/><rect class="k" x="120" y="160" width="76" height="46" rx="8"/><rect class="k" x="204" y="160" width="68" height="46" rx="8"/><polygon class="w" points="226,96 226,132 235,124 242,140 249,137 242,121 254,121"/></svg>',
+    shapes: '<svg viewBox="0 0 300 240" aria-hidden="true"><circle class="a" cx="96" cy="116" r="54"/><rect x="138" y="76" width="92" height="92" rx="12" fill="none" stroke="#f1f4ee" stroke-width="3"/><polygon points="196,48 262,160 130,160" fill="#12281f" stroke="#ff8a65" stroke-width="3"/><path d="M24 214 C 90 130, 190 250, 276 150" fill="none" stroke="#f1f4ee" stroke-width="3"/><rect class="w" x="19" y="209" width="10" height="10"/><rect class="w" x="271" y="145" width="10" height="10"/><circle class="a" cx="150" cy="190" r="6"/></svg>',
+    paper: '<svg viewBox="0 0 300 240" aria-hidden="true"><rect class="w" x="40" y="12" width="176" height="216" rx="12"/><rect class="a" x="60" y="32" width="96" height="12" rx="6"/><g fill="none" stroke="#5ec8ff" stroke-width="3"><rect x="60" y="68" width="16" height="16" rx="3"/><rect x="60" y="104" width="16" height="16" rx="3"/><rect x="60" y="140" width="16" height="16" rx="3"/><rect x="60" y="176" width="16" height="16" rx="3"/><path d="M63 77 l4 4 l7 -9"/><path d="M63 113 l4 4 l7 -9"/></g><g fill="#c9d3cc"><rect x="88" y="72" width="110" height="8" rx="4"/><rect x="88" y="108" width="90" height="8" rx="4"/><rect x="88" y="144" width="104" height="8" rx="4"/><rect x="88" y="180" width="76" height="8" rx="4"/></g><rect x="176" y="104" width="94" height="128" rx="16" fill="#0b1a14" stroke="#5ec8ff" stroke-width="4"/><rect class="a" x="190" y="128" width="66" height="10" rx="5"/><rect class="g" x="190" y="148" width="50" height="8" rx="4"/><rect class="g" x="190" y="164" width="58" height="8" rx="4"/><rect class="m" x="190" y="186" width="30" height="14" rx="7"/></svg>'
+  };
+  function statusLabel(c) { return c.status === 'open' ? 'চালু আছে' : (c.status === 'bonus' ? 'ফ্রি বোনাস' : 'শীঘ্রই'); }
+  function posterHTML(c) {
+    var p = c.poster; if (!p) return '';
+    return '<div class="poster" style="--a:' + p.a + '" role="img" aria-label="' + c.title + '">' +
+      '<div class="pt"><span>Tamkin Academy</span><i>' + statusLabel(c) + '</i></div>' +
+      '<h4>' + p.t + '</h4>' + ARTS[p.art] + '<div class="pb">' + p.badge + '</div></div>';
+  }
+
+  function home() {
+    var cards = COURSES.map(function (c) {
+      return '<button class="cc st-' + c.status + (c.main ? ' main' : '') + '" type="button" data-go="' + c.id + '">' +
+        posterHTML(c) +
+        '<h3>' + c.title + '</h3><p>' + c.short + '</p>' +
+        '<div class="top"><span class="pr">' + (c.status === 'open' ? c.price : (c.status === 'bonus' ? 'ফ্রি' : '')) + '</span><span class="more">বিস্তারিত →</span></div></button>';
+    }).join('');
+    return '' +
+    '<header class="hero one"><div><div class="eyebrow">Tamkin Academy</div>' +
+    '<h1>হাতে-কলমে শিখুন, <em>বাংলায়</em>, সাধ্যের মধ্যে</h1>' +
+    '<p class="lead">ভিডিও, ডিজাইন, ওয়েবসাইট আর শিক্ষকদের কাজে লাগে এমন প্র্যাকটিক্যাল কোর্স। প্রতিটা কোর্স ধাপে ধাপে সাজানো।</p>' +
+    '<div class="cta-row"><a class="btn gold" data-go="home" data-scroll="courses" href="#">সব কোর্স দেখুন</a><a class="btn ghost" data-go="ai-animation" href="#">চালু কোর্স: ৪৯৯ টাকা</a></div></div></header>' +
+    '<section id="courses"><div class="head"><div class="eyebrow">কোর্সসমূহ</div><h2>এখন যা চালু, আর যা আসছে</h2><p>নতুন কোর্স নিয়মিত যোগ হবে।</p></div><div class="grid">' + cards + '</div></section>' +
+    '<section id="why"><div class="head"><div class="eyebrow">কেন আমরা</div><h2>যা শেখাই, তা-ই কাজে লাগে</h2></div>' +
+    '<ol class="steps"><li><div><h3>বাংলায় শেখানো</h3><p>কঠিন ইংরেজি শব্দের ভিড় ছাড়া, সহজ ভাষায়।</p></div></li>' +
+    '<li><div><h3>ফ্রি টুল</h3><p>যেসব টুল ফ্রিতে পাওয়া যায়, সেগুলোই ব্যবহার হয়। আলাদা সফটওয়্যার কিনতে হয় না।</p></div></li>' +
+    '<li><div><h3>সাশ্রয়ী ফি</h3><p>প্রথম কোর্সের ফি মাত্র ৪৯৯ টাকা, সাথে আরেকটি কোর্স ফ্রি।</p></div></li></ol></section>' +
+    '<section id="contact"><div class="head" style="margin-inline:auto;text-align:center"><div class="eyebrow">যোগাযোগ</div><h2>প্রশ্ন থাকলে জানান</h2></div>' +
+    '<div class="box">' + contactBlock('আমাদের সাথে যোগাযোগ করুন') + '</div></section>';
+  }
+
+  function course(c) {
+    var out = '<header class="hero"><div>' +
+      '<button class="back" type="button" data-go="home">← সব কোর্স</button>' +
+      '<div class="eyebrow">' + (c.status === 'open' ? 'কোর্স · বাংলায়' : (c.status === 'bonus' ? 'ফ্রি বোনাস কোর্স' : 'শীঘ্রই আসছে')) + '</div>' +
+      '<h1>' + c.hero + '</h1><p class="lead">' + c.lead + '</p>';
+    if (c.status === 'open') {
+      var b = byId(c.bonusId);
+      out += '<div class="offer"><span class="p">' + c.price + '</span>' + (b ? '<span class="plus">+</span><span class="pill free" style="font-size:16px">ফ্রি ' + b.title + '</span>' : '') + '</div>' +
+        '<div class="cta-row"><a class="btn gold" data-scroll="enroll" href="#">এখনই এনরোল করুন →</a><a class="btn ghost" data-scroll="syllabus" href="#">কোর্সে কী আছে</a></div>';
+    } else if (c.status === 'bonus') {
+      var m = byId(c.needs);
+      out += '<div class="cta-row"><a class="btn gold" data-go="' + m.id + '" href="#">' + m.title + ' কোর্স দেখুন →</a></div>';
+    }
+    out += '</div>';
+    if (c.preview) out += '<div class="preview" aria-label="কোর্সে বানানো ভিডিওর নমুনা"><div class="dots"><i></i><i></i><i></i></div>' +
+      '<div class="ph ph1"><b>আপনি কি <span>বিশ্বাস</span> করবেন?</b></div>' +
+      '<div class="ph ph2"><b>RENDER <span>দাও…</span></b><div class="bar"><i></i></div><small>৭০%</small></div>' +
+      '<div class="ph ph3"><small>কোর্স ফি</small><div class="priceTag">মাত্র ' + c.price + '</div></div></div>';
+    else out += '<div>' + posterHTML(c) + '</div>';
+    out += '</header>';
+
+    if (c.audience) out += '<section><div class="head"><div class="eyebrow">কাদের জন্য</div><h2>যার একটা বিজনেস আছে, তার জন্য</h2></div><div class="chips">' +
+      c.audience.map(function (a, i) { return '<span class="chip' + (i === c.audience.length - 1 ? ' hl' : '') + '">' + a + '</span>'; }).join('') + '</div></section>';
+
+    if (c.steps) out += '<section id="syllabus"><div class="head"><div class="eyebrow">কোর্সের ধাপ</div><h2>' + c.stepsTitle + '</h2><p>' + c.stepsLead + '</p></div><ol class="steps">' +
+      c.steps.map(function (s) { return '<li><div><h3>' + s[0] + '</h3><p>' + s[1] + '</p></div></li>'; }).join('') + '</ol></section>';
+
+    if (c.bonusId) { var bb = byId(c.bonusId);
+      out += '<section><div class="bonus"><div><div class="eyebrow" style="color:var(--free)">বোনাস</div><h2 style="margin-top:8px">' + bb.title + ' কোর্স, একদম ফ্রি</h2>' +
+        '<p>যারা এই কোর্সটি নেবেন, তারা এটিও কোনো বাড়তি টাকা ছাড়া পাবেন।</p></div><div class="big">ফ্রি</div></div></section>'; }
+
+    if (c.status === 'open') {
+      out += '<section id="enroll"><div class="head" style="margin-inline:auto;text-align:center"><div class="eyebrow">কোর্স ফি</div><h2>একবার ফি, দুটো কোর্স</h2></div><div class="box">' +
+        '<div class="amt">' + c.price + '</div><ul>' + c.includes.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+        '<div class="how"><b>কীভাবে এনরোল করবেন</b>' +
+        '<span>১. নগদে ' + c.price.replace(' টাকা', '') + ' টাকা পাঠান (সেন্ড মানি)</span>' + numRow('নগদ নম্বর', NAGAD) +
+        '<span>২. টাকা পাঠানোর পর ট্রানজেকশন আইডি সহ আমাদের জানান</span>' + numRow('যোগাযোগ নম্বর', CONTACT) +
+        '<span>৩. আপনাকে কোর্সে ঢোকার নিয়ম জানিয়ে দেওয়া হবে</span></div></div></section>';
+    } else if (c.status === 'bonus') {
+      out += '<section><div class="box"><div class="how"><b>কীভাবে পাবেন</b><span>এই কোর্সটি আলাদা বিক্রি হয় না। AI দিয়ে অ্যানিমেশন ভিডিও কোর্সটি নিলে একই সাথে ফ্রি পাবেন।</span></div></div></section>';
+    } else {
+      out += '<section><div class="box"><h2 style="font-size:28px">কোর্সটি শীঘ্রই আসছে</h2><p style="color:var(--muted)">চালু হলে সবার আগে জানতে চাইলে আমাদের নম্বরে জানিয়ে রাখুন।</p>' + contactBlock('জানিয়ে রাখুন') + '</div></section>';
+    }
+
+    if (c.faq) out += '<section id="faq"><div class="head"><div class="eyebrow">প্রশ্নোত্তর</div><h2>যা জানতে চান</h2></div>' +
+      c.faq.map(function (f, i) { return '<details' + (i === 0 ? ' open' : '') + '><summary>' + f[0] + '</summary><p>' + f[1] + '</p></details>'; }).join('') + '</section>';
+    return out;
+  }
+
+  var app = document.getElementById('app');
+  function render(id, scrollTo) {
+    var c = byId(id);
+    app.innerHTML = c ? course(c) : home();
+    document.title = c ? c.title + ' · Tamkin Academy' : 'Tamkin Academy';
+    try { history.replaceState(null, '', c ? '#' + id : location.pathname + location.search); } catch (e) {}
+    var t = scrollTo ? document.getElementById(scrollTo) : null;
+    if (t) t.scrollIntoView(); else window.scrollTo(0, 0);
+  }
+  function copyText(text, btn) {
+    function ok() { var o = btn.textContent; btn.textContent = 'কপি হয়েছে'; setTimeout(function () { btn.textContent = o; }, 1400); }
+    function fallback() {
+      var n = btn.parentNode.querySelector('code');
+      if (n) { var r = document.createRange(); r.selectNodeContents(n); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+    }
+    try { navigator.clipboard.writeText(text).then(ok, fallback); } catch (e) { fallback(); }
+  }
+  document.addEventListener('click', function (e) {
+    var cp = e.target.closest('[data-copy]');
+    if (cp) { copyText(cp.getAttribute('data-copy'), cp); return; }
+    var el = e.target.closest('[data-go],[data-scroll]');
+    if (!el) return;
+    e.preventDefault();
+    var go = el.getAttribute('data-go'), sc = el.getAttribute('data-scroll');
+    if (go) render(go === 'home' ? '' : go, sc); else { var t = document.getElementById(sc); if (t) t.scrollIntoView(); }
+  });
+  var start = ''; try { start = location.hash.replace('#', ''); } catch (e) {}
+  render(byId(start) ? start : '');
+</script>
+
+</body>
+</html>
