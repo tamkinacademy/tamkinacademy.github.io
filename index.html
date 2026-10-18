@@ -43,6 +43,8 @@
     margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
   nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
   .brand { font-family: var(--display); font-weight: 800; font-size: 21px; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .bn { display: grid; line-height: 1.1; }
+  .bn small { font-family: var(--body); font-weight: 500; font-size: 11px; color: var(--muted); letter-spacing: .02em; margin-top: 2px; }
   .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--gold); display: grid; place-items: center; color: var(--gold-ink); font-size: 18px; font-weight: 800; }
   .links { display: flex; gap: 22px; color: var(--muted); font-size: 16px; }
   .links a { text-decoration: none; cursor: pointer; }
@@ -89,7 +91,8 @@
     border: 1px solid color-mix(in srgb, var(--a) 45%, var(--line)); }
   .poster .pt { position: absolute; top: 5cqw; left: 5.5cqw; right: 5.5cqw; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 3.2cqw; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
   .poster .pt i { font-style: normal; color: var(--a); font-family: var(--body); letter-spacing: 0; text-transform: none; font-size: 3.8cqw; font-weight: 700; }
-  .poster h4 { position: absolute; left: 5.5cqw; top: 16cqw; width: 60%; margin: 0; font-family: var(--display); font-weight: 800; font-size: 8.8cqw; line-height: 1.15; text-wrap: balance; }
+  .poster .by { position: absolute; top: 10.6cqw; left: 5.5cqw; font-size: 3cqw; color: var(--muted); opacity: .85; }
+  .poster h4 { position: absolute; left: 5.5cqw; top: 18cqw; width: 60%; margin: 0; font-family: var(--display); font-weight: 800; font-size: 8.8cqw; line-height: 1.15; text-wrap: balance; }
   .poster h4 em { font-style: normal; color: var(--a); }
   .poster svg { position: absolute; right: -2cqw; bottom: -4cqw; width: 56%; height: auto; }
   .poster .pb { position: absolute; left: 5.5cqw; bottom: 5.5cqw; padding: .6cqw 4cqw 1.4cqw; border-radius: 99px; background: var(--a); color: #06100b; font-family: var(--display); font-weight: 800; font-size: 5.6cqw; line-height: 1.3; }
@@ -153,14 +156,14 @@
 </head>
 <body>
 <div class="nav-band"><div class="wrap"><nav>
-  <a class="brand" href="#" data-go="home"><span class="mark" aria-hidden="true">ত</span> Tamkin Academy</a>
+  <a class="brand" href="#" data-go="home"><span class="mark" aria-hidden="true">ত</span><span class="bn">Tamkin Academy<small>by TechCraft Digital Solutions</small></span></a>
   <div class="links"><a data-go="home" data-scroll="courses">কোর্স</a><a data-go="home" data-scroll="why">কেন আমরা</a><a data-go="home" data-scroll="contact">যোগাযোগ</a></div>
   <a class="btn gold sm" data-go="ai-animation" href="#">এনরোল করুন</a>
 </nav></div></div>
 
 <div class="wrap" id="app"></div>
 
-<footer><div class="wrap">© Tamkin Academy · সব কোর্স বাংলায়</div></footer>
+<footer><div class="wrap">© Tamkin Academy · by TechCraft Digital Solutions · সব কোর্স বাংলায়</div></footer>
 
 <script>
   var CONTACT = '01942319608';
@@ -248,7 +251,7 @@
   function posterHTML(c) {
     var p = c.poster; if (!p) return '';
     return '<div class="poster" style="--a:' + p.a + '" role="img" aria-label="' + c.title + '">' +
-      '<div class="pt"><span>Tamkin Academy</span><i>' + statusLabel(c) + '</i></div>' +
+      '<div class="pt"><span>Tamkin Academy</span><i>' + statusLabel(c) + '</i></div><div class="by">by TechCraft Digital Solutions</div>' +
       '<h4>' + p.t + '</h4>' + ARTS[p.art] + '<div class="pb">' + p.badge + '</div></div>';
   }
 
@@ -260,7 +263,7 @@
         '<div class="top"><span class="pr">' + (c.status === 'open' ? c.price : (c.status === 'bonus' ? 'ফ্রি' : '')) + '</span><span class="more">বিস্তারিত →</span></div></button>';
     }).join('');
     return '' +
-    '<header class="hero one"><div><div class="eyebrow">Tamkin Academy</div>' +
+    '<header class="hero one"><div><div class="eyebrow">Tamkin Academy · by TechCraft Digital Solutions</div>' +
     '<h1>হাতে-কলমে শিখুন, <em>বাংলায়</em>, সাধ্যের মধ্যে</h1>' +
     '<p class="lead">ভিডিও, ডিজাইন, ওয়েবসাইট আর শিক্ষকদের কাজে লাগে এমন প্র্যাকটিক্যাল কোর্স। প্রতিটা কোর্স ধাপে ধাপে সাজানো।</p>' +
     '<div class="cta-row"><a class="btn gold" data-go="home" data-scroll="courses" href="#">সব কোর্স দেখুন</a><a class="btn ghost" data-go="ai-animation" href="#">ব্যাচ শুরু ৬ নভেম্বর · ৪৯৯ টাকা</a></div></div></header>' +
