@@ -112,6 +112,10 @@
   .steps li::before { content: counter(s, bengali); font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; color: var(--gold); }
   .steps h3 { margin-bottom: 4px; } .steps p { color: var(--muted); font-size: 17px; }
 
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .fact { display: grid; gap: 2px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg2); }
+  .fact span { color: var(--muted); font-size: 15px; }
+  .fact b { font-family: var(--display); font-size: 21px; font-weight: 700; }
   .chips { display: flex; flex-wrap: wrap; gap: 12px; }
   .chip { padding: 10px 22px; border: 1px solid var(--line); background: var(--bg2); border-radius: 99px; font-weight: 500; }
   .chip.hl { border-color: var(--gold); color: var(--gold); font-weight: 700; }
@@ -173,17 +177,21 @@
       lead: 'আলাদা ডিজাইনার বা এডিটর ভাড়া না করে নিজের বিজ্ঞাপন নিজে বানাতে চাইলে। ধাপে ধাপে, বাংলায়।',
       preview: true, bonusId: 'website',
       audience: ['দোকান', 'রেস্টুরেন্ট', 'অনলাইন শপ', 'কোচিং সেন্টার', 'সার্ভিস বিজনেস', 'ফ্রিল্যান্সার', 'আপনার বিজনেস'],
-      stepsTitle: 'পাঁচ ধাপে একটা পুরো ভিডিও',
-      stepsLead: 'প্রতিটা ধাপ আগেরটার ওপর দাঁড়িয়ে। শেষে আপনার নিজের বিজনেসের একটা ভিডিও তৈরি থাকবে।',
+      batch: { start: '৬ নভেম্বর, শুক্রবার', deadline: '৫ নভেম্বর, বৃহস্পতিবার', time: 'রাত ৯টা', classes: '৭টি লাইভ ক্লাস, সপ্তাহে ৩টা', platform: 'Google Meet' },
+      stepsTitle: 'সাতটি লাইভ ক্লাসে একটা পুরো ভিডিও',
+      stepsLead: 'প্রতিটা ক্লাস আগেরটার ওপর দাঁড়িয়ে। শেষ ক্লাসে আপনার নিজের বিজনেসের একটা ভিডিও তৈরি থাকবে।',
       steps: [
-        ['স্ক্রিপ্ট ও আইডিয়া', 'ছোট ছোট বাক্যে এমন কথা লেখা, যা দেখলে মানুষ থামে।'],
-        ['AI-কে দিয়ে দৃশ্য বানানো', 'দৃশ্য বর্ণনা করলে AI অ্যানিমেশন লিখে দেয়। কোড বোঝার দরকার নেই।'],
-        ['বাংলা লেখা, রং ও ফন্ট', 'দুই-তিনটা রং আর একটা ফন্টেই কীভাবে প্রফেশনাল লুক আসে।'],
-        ['নড়াচড়া ও সাউন্ড', 'ঝাপসা থেকে পরিষ্কার, পপ-আপ, বার ভরা, সাথে সাউন্ড ইফেক্ট ও মিউজিক।'],
-        ['রেকর্ড, ভয়েস ও এক্সপোর্ট', 'ফ্রি টুলে রেকর্ড করে MP4 বের করা, Facebook ও Reels-এর সাইজে।']
+        ['স্ক্রিপ্ট ও আইডিয়া', '৬ নভেম্বর, শুক্রবার · ছোট ছোট বাক্যে এমন কথা লেখা, যা দেখলে মানুষ থামে।'],
+        ['AI-কে দিয়ে দৃশ্য বানানো', '৮ নভেম্বর, রবিবার · দৃশ্য বর্ণনা করলে AI অ্যানিমেশন লিখে দেয়। কোড বোঝার দরকার নেই।'],
+        ['বাংলা লেখা, রং ও ফন্ট', '১০ নভেম্বর, মঙ্গলবার · দুই-তিনটা রং আর একটা ফন্টেই কীভাবে প্রফেশনাল লুক আসে।'],
+        ['নড়াচড়া ও টাইমিং', '১৩ নভেম্বর, শুক্রবার · ঝাপসা থেকে পরিষ্কার, পপ-আপ, বার ভরা।'],
+        ['সাউন্ড ও মিউজিক', '১৫ নভেম্বর, রবিবার · সাউন্ড ইফেক্ট ও ব্যাকগ্রাউন্ড মিউজিক বসানো।'],
+        ['রেকর্ড, ভয়েস ও এক্সপোর্ট', '১৭ নভেম্বর, মঙ্গলবার · ফ্রি টুলে রেকর্ড করে MP4 বের করা, Facebook ও Reels-এর সাইজে।'],
+        ['নিজের বিজনেসের ভিডিও', '২০ নভেম্বর, শুক্রবার · সবাই মিলে প্রজেক্ট বানানো ও পোস্ট করা।']
       ],
-      includes: ['AI দিয়ে অ্যানিমেশন ভিডিও বানানোর পুরো কোর্স', 'বোনাস: ওয়েবসাইট বানানোর কোর্স (ফ্রি)', 'যেকোনো ধরনের বিজনেসের জন্য'],
+      includes: ['৭টি লাইভ ক্লাস (রাত ৯টা, Google Meet)', 'AI দিয়ে অ্যানিমেশন ভিডিও বানানোর পুরো কোর্স', 'বোনাস: ওয়েবসাইট বানানোর কোর্স (ফ্রি)', 'যেকোনো ধরনের বিজনেসের জন্য'],
       faq: [
+        ['ক্লাস কখন ও কোথায় হবে?', 'রাত ৯টায়, Google Meet-এ লাইভ। সপ্তাহে ৩টা ক্লাস, মোট ৭টা। এনরোল করলে ক্লাসের লিংক জানিয়ে দেওয়া হবে।'],
         ['কোডিং জানা লাগবে?', 'না। আপনি দৃশ্যটা বাংলায় বর্ণনা করবেন, AI কোড লিখে দেবে। কোর্সে সেই বর্ণনা কীভাবে লিখতে হয় শেখানো হবে।'],
         ['কোন কোন টুল লাগবে, খরচ কত?', 'কোর্সে ফ্রি টুল ব্যবহার করা হয়। একটা কম্পিউটার বা ফোন আর ইন্টারনেট থাকলেই শুরু করা যায়।'],
         ['কোর্স কীভাবে পাব?', 'নগদে টাকা পাঠিয়ে আমাদের জানালে কোর্সে ঢোকার নিয়ম আপনাকে জানিয়ে দেওয়া হবে।'],
@@ -255,7 +263,7 @@
     '<header class="hero one"><div><div class="eyebrow">Tamkin Academy</div>' +
     '<h1>হাতে-কলমে শিখুন, <em>বাংলায়</em>, সাধ্যের মধ্যে</h1>' +
     '<p class="lead">ভিডিও, ডিজাইন, ওয়েবসাইট আর শিক্ষকদের কাজে লাগে এমন প্র্যাকটিক্যাল কোর্স। প্রতিটা কোর্স ধাপে ধাপে সাজানো।</p>' +
-    '<div class="cta-row"><a class="btn gold" data-go="home" data-scroll="courses" href="#">সব কোর্স দেখুন</a><a class="btn ghost" data-go="ai-animation" href="#">চালু কোর্স: ৪৯৯ টাকা</a></div></div></header>' +
+    '<div class="cta-row"><a class="btn gold" data-go="home" data-scroll="courses" href="#">সব কোর্স দেখুন</a><a class="btn ghost" data-go="ai-animation" href="#">ব্যাচ শুরু ৬ নভেম্বর · ৪৯৯ টাকা</a></div></div></header>' +
     '<section id="courses"><div class="head"><div class="eyebrow">কোর্সসমূহ</div><h2>এখন যা চালু, আর যা আসছে</h2><p>নতুন কোর্স নিয়মিত যোগ হবে।</p></div><div class="grid">' + cards + '</div></section>' +
     '<section id="why"><div class="head"><div class="eyebrow">কেন আমরা</div><h2>যা শেখাই, তা-ই কাজে লাগে</h2></div>' +
     '<ol class="steps"><li><div><h3>বাংলায় শেখানো</h3><p>কঠিন ইংরেজি শব্দের ভিড় ছাড়া, সহজ ভাষায়।</p></div></li>' +
@@ -272,7 +280,7 @@
       '<h1>' + c.hero + '</h1><p class="lead">' + c.lead + '</p>';
     if (c.status === 'open') {
       var b = byId(c.bonusId);
-      out += '<div class="offer"><span class="p">' + c.price + '</span>' + (b ? '<span class="plus">+</span><span class="pill free" style="font-size:16px">ফ্রি ' + b.title + '</span>' : '') + '</div>' +
+      out += '<div class="offer"><span class="p">' + c.price + '</span>' + (b ? '<span class="plus">+</span><span class="pill free" style="font-size:16px">সাথে ফ্রি ওয়েবসাইট কোর্স</span>' : '') + '</div>' +
         '<div class="cta-row"><a class="btn gold" data-scroll="enroll" href="#">এখনই এনরোল করুন →</a><a class="btn ghost" data-scroll="syllabus" href="#">কোর্সে কী আছে</a></div>';
     } else if (c.status === 'bonus') {
       var m = byId(c.needs);
@@ -286,6 +294,9 @@
     else out += '<div>' + posterHTML(c) + '</div>';
     out += '</header>';
 
+    if (c.batch) out += '<section id="batch"><div class="head"><div class="eyebrow">ব্যাচের তথ্য</div><h2>প্রথম ব্যাচ শুরু ' + c.batch.start + '</h2></div><div class="facts">' +
+      [['শুরু', c.batch.start], ['এনরোলমেন্ট শেষ', c.batch.deadline], ['সময়', c.batch.time], ['ক্লাস', c.batch.classes], ['প্ল্যাটফর্ম', c.batch.platform + ' (লাইভ)']].map(function (f) { return '<div class="fact"><span>' + f[0] + '</span><b>' + f[1] + '</b></div>'; }).join('') + '</div></section>';
+
     if (c.audience) out += '<section><div class="head"><div class="eyebrow">কাদের জন্য</div><h2>যার একটা বিজনেস আছে, তার জন্য</h2></div><div class="chips">' +
       c.audience.map(function (a, i) { return '<span class="chip' + (i === c.audience.length - 1 ? ' hl' : '') + '">' + a + '</span>'; }).join('') + '</div></section>';
 
@@ -298,7 +309,7 @@
 
     if (c.status === 'open') {
       out += '<section id="enroll"><div class="head" style="margin-inline:auto;text-align:center"><div class="eyebrow">কোর্স ফি</div><h2>একবার ফি, দুটো কোর্স</h2></div><div class="box">' +
-        '<div class="amt">' + c.price + '</div><ul>' + c.includes.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+        '<div class="amt">' + c.price + '</div>' + (c.batch ? '<p style="text-align:center;color:var(--muted);margin-top:-8px">এনরোলমেন্ট শেষ: ' + c.batch.deadline + '</p>' : '') + '<ul>' + c.includes.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
         '<div class="how"><b>কীভাবে এনরোল করবেন</b>' +
         '<span>১. নগদে ' + c.price.replace(' টাকা', '') + ' টাকা পাঠান (সেন্ড মানি)</span>' + numRow('নগদ নম্বর', NAGAD) +
         '<span>২. টাকা পাঠানোর পর ট্রানজেকশন আইডি সহ আমাদের জানান</span>' + numRow('যোগাযোগ নম্বর', CONTACT) +
